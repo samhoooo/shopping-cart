@@ -1,34 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import '../styles/home.css';
 import Products from '../components/products';
 import Navbar from '../components/navbar';
 import Cart from '../components/cart';
-import {IProduct} from '../external/product';
+import {IProduct, getProducts} from '../external/product';
 import {ICartItem} from '../external/cart';
-
-interface IProductResponse {
-    products: IProduct[]
-}
+import ErrorFallback from '../components/errorFallback';
 
 export default function Home() {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [cartItems, setCartItems] = useState<ICartItem[]>([]);
-
-    // fetch products list from mock API
-    const getProducts = async () => {
-        try {
-            const res = await axios.get('/json/products.json');
-            const data = res.data as IProductResponse;
-            if (data == null || data.products == null)
-                throw new Error("missing product info")
-            return data.products;
-        } catch (err) {
-            // TODO: error handling
-            console.error(err);
-            return [];
-        }
-    }
+    const [error, setError] = useState(""); // containing error message
 
     const addToCart = (product: IProduct) => {
         console.log("product", product);
@@ -76,26 +58,35 @@ export default function Home() {
     useEffect(() => {
         // first time loading get products 
         (async () => {
-            const products = await getProducts();
-            setProducts(products);
+            try {
+                const products = await getProducts();
+                setProducts(products);
+            } catch (err) {
+                if (err instanceof Error)
+                    setError(err.message);
+            }
         })();
     }, []);    
 
     return (
         <div className="App">
-        <Navbar/>
-        <div className="content">
-            <Products 
-                products={products}
-                addProductToCart={addToCart}
-            />
-            <Cart 
-                cartItems={cartItems}
-                products={products} 
-                removeProductFromCart={removeFromCart}
-                addProductToCart={addToCart}
-            />
-        </div>
+            <Navbar/>
+            {
+                error !== "" ?
+                <ErrorFallback errorMessage={error}/>:
+                <div className="content">
+                    <Products 
+                        products={products}
+                        addProductToCart={addToCart}
+                    />
+                    <Cart 
+                        cartItems={cartItems}
+                        products={products} 
+                        removeProductFromCart={removeFromCart}
+                        addProductToCart={addToCart}
+                    />
+                </div>
+            }
         </div>
     );
 }

@@ -11,3 +11,7 @@
     border-radius: 8px;
     padding: 8px 4px;
 }
+
+.error[role='alert'] {
+    text-align: center;
+}
