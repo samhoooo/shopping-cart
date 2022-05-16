@@ -1,0 +1,18 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Face Masks",
+            "price": 2.5,
+            "unit": null,
+            "image": ""
+        },
+        {
+            "id": 2,
+            "name": "Toilet Paper",
+            "price": 0.65,
+            "unit": "roll",
+            "image": ""
+        }
+    ]
+}

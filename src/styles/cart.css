@@ -1,0 +1,47 @@
+.cart {
+    width: 100%;
+}
+
+.cart .header {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+}
+
+.basket {
+    width: 100%;
+}
+
+.basket th {
+    text-align: left;
+}
+
+.basket #totalLabel {
+    text-align: left;
+}
+
+.basket .summary td {
+    padding-top: 2rem;
+}
+
+.basket .removeButton, .basket .addButton {
+    cursor: pointer;
+    user-select: none;
+    margin: 0 0.4rem;
+}
+
+.basket .noItem {
+    padding: 2rem 2rem 0;
+    text-align: center;
+}
+
+.basket .col {
+    width: 20%;
+}
+
+.basket .col.last {
+    width: 40%;
+}
+
+.basket .action {
+    font-weight: bold;
+}
