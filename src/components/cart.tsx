@@ -11,23 +11,61 @@ interface ICartProps {
     addProductToCart: (product: IProduct) => void
 }
 
+interface ISummerizedCartItem {
+    totalCost: number,
+    discount: number,
+    cartItem: ICartItem,
+    product: IProduct
+}
+
+
 const findProductById = (id: number, products: IProduct[]) => {
     return products.find(item => item.id === id);
 }
 
+/**
+ * Calculate discounted product cost
+ */
+const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
+    switch(product.name) {
+        case 'Face Masks':
+            return (quantity - quantity % 2) / 2 * 4 + (quantity % 2) * product.price;
+        case 'Toilet Paper':
+            return product.price * quantity - ((quantity - quantity % 6) / 6 * product.price);
+        default:
+            return product.price * quantity;
+    }
+}
+
 export default function Cart(props: ICartProps) {
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [summerizedCartItems, setSummerizedCartItems] = useState<ISummerizedCartItem[]>([]);
+    const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
-        // calculate total price
-        let totalPrice = 0;
+        const costs = [];
+        let totalCost = 0;
+
         for (let item of props.cartItems) {
+            // calculate costs for each cart items
             const product = findProductById(item.productId, props.products);
             if (product == null)
-                continue;
-            totalPrice += product.price * item.quantity
-        }
-        setTotalPrice(totalPrice);
+                return;
+
+            const originalPrice = product.price * item.quantity;
+            const discountedCostOfItem = getDiscountedCostOfItem(product, item.quantity);
+            costs.push({
+                totalCost: originalPrice,
+                discount: originalPrice - discountedCostOfItem,
+                cartItem: item,
+                product: product
+            });
+
+            // calculate total price of items 
+            totalCost += discountedCostOfItem;
+        };
+
+        setSummerizedCartItems(costs);
+        setTotalCost(totalCost);
     }, [props.cartItems, props.products]);
 
     return (
@@ -49,22 +87,17 @@ export default function Cart(props: ICartProps) {
                             <td colSpan={4} className="noItem">There is no item in shopping cart.</td>
                         </tr>
                         :
-                        props.cartItems.map((item) => {
-                            const product = findProductById(item.productId, props.products);
-                            if (product == null)
-                                return;
-
-                            const totalCost = product.price * item.quantity;
+                        summerizedCartItems.map((item) => {
                             return (
                                 <tr>
-                                    <td className="col">{item.quantity} {product.name}</td>
-                                    <td className="col">{formatCurrency(product.price)}</td>
-                                    <td className="col">{formatCurrency(totalCost)}</td>
-                                    <td className="col">TODO</td>
+                                    <td className="col">{item.cartItem.quantity} {item.product.name}</td>
+                                    <td className="col">{formatCurrency(item.product.price)}</td>
+                                    <td className="col">{formatCurrency(item.totalCost)}</td>
+                                    <td className="col">{formatCurrency(item.discount)}</td>
                                     <td className="col last">
-                                        <span className="action removeButton" onClick={() => {props.removeProductFromCart(product)}}>-</span>
-                                        <span className="action quantity">{item.quantity}</span>
-                                        <span className="action addButton" onClick={() => {props.addProductToCart(product)}}>+</span>
+                                        <span className="action removeButton" onClick={() => {props.removeProductFromCart(item.product)}}>-</span>
+                                        <span className="action quantity">{item.cartItem.quantity}</span>
+                                        <span className="action addButton" onClick={() => {props.addProductToCart(item.product)}}>+</span>
                                     </td>
                                 </tr>
                             )
@@ -72,7 +105,7 @@ export default function Cart(props: ICartProps) {
                     }
                     <tr className="summary">
                         <td id="totalLabel" colSpan={3} align="right">Total to pay:</td>
-                        <td id="total"><b>{formatCurrency(totalPrice)}</b>
+                        <td id="total"><b>{formatCurrency(totalCost)}</b>
                         </td>
                     </tr>
                 </tbody>
