@@ -89,7 +89,7 @@ export default function Cart(props: ICartProps) {
                         :
                         summerizedCartItems.map((item) => {
                             return (
-                                <tr>
+                                <tr key={item.product.id} id={'' +item.product.id}>
                                     <td className="col">{item.cartItem.quantity} {item.product.name}</td>
                                     <td className="col">{formatCurrency(item.product.price)}</td>
                                     <td className="col">{formatCurrency(item.totalCost)}</td>

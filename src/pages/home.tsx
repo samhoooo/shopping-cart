@@ -13,7 +13,6 @@ export default function Home() {
     const [error, setError] = useState(""); // containing error message
 
     const addToCart = (product: IProduct) => {
-        console.log("product", product);
         const currentCartItems = [...cartItems];
 
         const existingCartItemWithSameProductIndex = currentCartItems.findIndex(item => item.productId === product.id);
