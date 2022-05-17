@@ -95,9 +95,9 @@ export default function Cart(props: ICartProps) {
                                     <td className="col">{formatCurrency(item.totalCost)}</td>
                                     <td className="col">{formatCurrency(item.discount)}</td>
                                     <td className="col last">
-                                        <span className="action removeButton" onClick={() => {props.removeProductFromCart(item.product)}}>-</span>
+                                        <button className="action removeButton" onClick={() => {props.removeProductFromCart(item.product)}}>-</button>
                                         <span className="action quantity">{item.cartItem.quantity}</span>
-                                        <span className="action addButton" onClick={() => {props.addProductToCart(item.product)}}>+</span>
+                                        <button className="action addButton" onClick={() => {props.addProductToCart(item.product)}}>+</button>
                                     </td>
                                 </tr>
                             )
