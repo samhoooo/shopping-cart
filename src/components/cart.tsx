@@ -95,9 +95,9 @@ export default function Cart(props: ICartProps) {
                                     <td className="col" data-testid={`item-total-cost-${item.product.id}`}>{formatCurrency(item.totalCost)}</td>
                                     <td className="col" data-testid={`item-discount-${item.product.id}`}>{formatCurrency(item.discount)}</td>
                                     <td className="col last">
-                                        <button className="action removeButton" data-testid={`remove-button-${item.product.id}`} onClick={() => {props.removeProductFromCart(item.product)}}>-</button>
+                                        <button className="action removeButton" data-testid={`remove-button-${item.product.id}`} aria-label="remove 1 item" onClick={() => {props.removeProductFromCart(item.product)}}>-</button>
                                         <span className="action quantity" data-testid={`item-quantity-${item.product.id}`}>{item.cartItem.quantity}</span>
-                                        <button className="action addButton" data-testid={`add-button-${item.product.id}`} onClick={() => {props.addProductToCart(item.product)}}>+</button>
+                                        <button className="action addButton" data-testid={`add-button-${item.product.id}`} aria-label="add 1 item" onClick={() => {props.addProductToCart(item.product)}}>+</button>
                                     </td>
                                 </tr>
                             )
