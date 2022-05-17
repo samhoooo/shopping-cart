@@ -15,7 +15,7 @@ interface ISummerizedCartItem {
     totalCost: number,
     discount: number,
     cartItem: ICartItem,
-    product: IProduct
+    product: IProduct,
 }
 
 

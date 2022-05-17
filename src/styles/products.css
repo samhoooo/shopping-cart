@@ -14,8 +14,13 @@
 
 .product-list .item {
     width: 50%;
+    text-align: center;
 }
 
-button.addToCart {
+button.add-to-cart {
     margin-top: 1rem;
+}
+
+.product-image {
+    width: 50%;
 }
