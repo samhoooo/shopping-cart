@@ -1,5 +1,10 @@
 .cart {
-    width: 100%;
+    flex: 100%;
+}
+@media(min-width: 970px) {
+    .cart {
+        flex: 50%;
+    }
 }
 
 .cart .header {

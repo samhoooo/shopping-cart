@@ -1,6 +1,7 @@
 .content {
     padding: 0 5%;
     display: flex;
+    flex-wrap: wrap;
 }
 
 button {

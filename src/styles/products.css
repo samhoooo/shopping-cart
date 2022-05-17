@@ -1,5 +1,10 @@
 .products {
-    width: 100%;
+    flex: 100%;
+}
+@media(min-width: 970px) {
+    .products {
+        flex: 50%;
+    }
 }
 
 .products .header {
@@ -22,5 +27,5 @@ button.add-to-cart {
 }
 
 .product-image {
-    width: 50%;
+    width: 8rem;
 }
