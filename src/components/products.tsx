@@ -19,7 +19,7 @@ export default function Products(props: IProductProps) {
                             <div className="item">
                                 <div>{item.name}</div>
                                 <div>{formatCurrency(item.price)}</div>
-                                <div className="button addToCart" onClick={() => { props.addProductToCart(item)}}>Add to Cart</div>
+                                <button className="button addToCart" onClick={() => { props.addProductToCart(item)}}>Add to Cart</button>
                             </div>
                         )
                     })

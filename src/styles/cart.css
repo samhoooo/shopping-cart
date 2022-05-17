@@ -39,9 +39,18 @@
 }
 
 .basket .col.last {
-    width: 40%;
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .basket .action {
     font-weight: bold;
+}
+
+.basket button.action {
+    width: 2rem;
+    height: 2rem;
+    padding: .5rem;
 }

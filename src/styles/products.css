@@ -16,8 +16,6 @@
     width: 50%;
 }
 
-.button.addToCart {
+button.addToCart {
     margin-top: 1rem;
-    cursor: pointer;
-    user-select: none;
 }
