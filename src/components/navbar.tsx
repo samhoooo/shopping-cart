@@ -3,8 +3,8 @@ import '../styles/navbar.css';
 
 export default function Navbar() {
     return (
-        <div className="navbar">
-            <div className="header">My Shop</div>
+        <div className="navbar" data-testid="navbar">
+            <div className="header" data-testid="header">My Shop</div>
         </div>
     )
 }

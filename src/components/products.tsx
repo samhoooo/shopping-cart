@@ -10,16 +10,16 @@ interface IProductProps {
 
 export default function Products(props: IProductProps) {
     return (
-        <div className="products">
+        <div className="products" data-testid="products">
             <div className="header">Products</div>
             <div className="product-list">
                 {
                     props.products.map((item) => {
                         return (
-                            <div className="item">
-                                <div>{item.name}</div>
-                                <div>{formatCurrency(item.price)}</div>
-                                <div className="button addToCart" onClick={() => { props.addProductToCart(item)}}>Add to Cart</div>
+                            <div key={item.id} data-testid={`item-${item.id}`} className="item">
+                                <div data-testid={`product-name-${item.id}`}>{item.name}</div>
+                                <div data-testid={`unit-cost-${item.id}`}>{formatCurrency(item.price)}</div>
+                                <div data-testid={`add-to-cart-${item.id}`} className="button addToCart" onClick={() => { props.addProductToCart(item)}}>Add to Cart</div>
                             </div>
                         )
                     })
