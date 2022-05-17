@@ -15,7 +15,7 @@ export default function Products(props: IProductProps) {
                 {
                     props.products.map((item) => {
                         return (
-                            <div className="item" data-testid={`product-${item.id}`}>
+                            <div className="item" data-testid={`product-${item.id}`} key={item.id}>
                                 <img src={item.image} className="product-image"/>
                                 <div data-testid={`product-name-${item.id}`}>{item.name}</div>
                                 <div data-testid={`product-price-${item.id}`}>{formatCurrency(item.price)}</div>
