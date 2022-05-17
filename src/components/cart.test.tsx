@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, queryByAttribute } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Cart from './cart';
 
 const mockCartItems = [{
@@ -25,14 +25,7 @@ const mockProducts = [{
     "image": ""
 }];
 
-const getById = queryByAttribute.bind(null, 'id');
-const getByClass = queryByAttribute.bind(null, 'class');
-
-
-/**
- * To test product name render
- */
-test('renders cart item', () => {
+test('render shooping ncart correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -41,15 +34,10 @@ test('renders cart item', () => {
             addProductToCart={() => {}}
         />
     );
-    // get cart item where product ID = 1 (i.e. Face Masks)
-    const faceMaskItem = getById(dom.container, '1');
-    expect(faceMaskItem).toHaveTextContent('Face Masks');
+    expect(dom.getByTestId("cart")).toBeInTheDocument();
 });
 
-/**
- * To test quantity display next to the product name
- */
-test('renders quantity', () => {
+test('show cart item correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -58,15 +46,12 @@ test('renders quantity', () => {
             addProductToCart={() => {}}
         />
     );
-    // get cart item where product ID = 1 (i.e. Face Masks)
-    const faceMaskItem = getById(dom.container, '1');
-    expect(faceMaskItem).toHaveTextContent('2');
+    // get cart item with product ID = 1 (i.e. Face Masks)
+    const faceMaskItem = dom.getByTestId('item-1');
+    expect(faceMaskItem).toBeInTheDocument();
 });
 
-/**
- * To test unit cost display
- */
-test('renders unit cost', () => {
+test('show cart item quantity correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -75,14 +60,25 @@ test('renders unit cost', () => {
             addProductToCart={() => {}}
         />
     );
-    const faceMaskItem = getById(dom.container, '1');
+    // get cart item with product ID = 1 (i.e. Face Masks)
+    const faceMaskItem = dom.getByTestId('item-quantity-1');
+    expect(faceMaskItem).toHaveTextContent("2");
+});
+
+test('show unit cost correctly', () => {
+    const dom = render(
+        <Cart 
+            cartItems={mockCartItems} 
+            products={mockProducts}
+            removeProductFromCart={() => {}}
+            addProductToCart={() => {}}
+        />
+    );
+    const faceMaskItem = dom.getByTestId('item-unit-cost-1');
     expect(faceMaskItem).toHaveTextContent('£2.50');
 });
 
-/**
- * To test total cost display
- */
-test('renders total cost', () => {
+test('show total cost of item correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -91,14 +87,11 @@ test('renders total cost', () => {
             addProductToCart={() => {}}
         />
     );
-    const faceMaskItem = getById(dom.container, '1');
+    const faceMaskItem = dom.getByTestId('item-total-cost-1');
     expect(faceMaskItem).toHaveTextContent('£5.00');
 });
 
-/**
- * To test total cost display
- */
-test('renders discount', () => {
+test('show discount correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -107,14 +100,11 @@ test('renders discount', () => {
             addProductToCart={() => {}}
         />
     );
-    const faceMaskItem = getById(dom.container, '1');
+    const faceMaskItem = dom.getByTestId('item-discount-1');
     expect(faceMaskItem).toHaveTextContent('£1.00');
 });
 
-/**
- * To test item total to pay
- */
- test('renders discount', () => {
+test('show total amount correctly', () => {
     const dom = render(
         <Cart 
             cartItems={mockCartItems} 
@@ -123,6 +113,34 @@ test('renders discount', () => {
             addProductToCart={() => {}}
         />
     );
-    const total = getById(dom.container, 'total');
+    const total = dom.getByTestId('total-amount');
     expect(total).toHaveTextContent('£7.90');
+});
+
+test('click remove button trigger function correctly', () => {
+    const mockFn = jest.fn();
+    const dom = render(
+        <Cart 
+            cartItems={mockCartItems} 
+            products={mockProducts}
+            removeProductFromCart={mockFn}
+            addProductToCart={() => {}}
+        />
+    );
+    dom.getByTestId("remove-button-1").click();
+    expect(mockFn).toHaveBeenCalledTimes(1);
+});
+
+test('click add button trigger function correctly', () => {
+    const mockFn = jest.fn();
+    const dom = render(
+        <Cart 
+            cartItems={mockCartItems} 
+            products={mockProducts}
+            removeProductFromCart={() => {}}
+            addProductToCart={mockFn}
+        />
+    );
+    dom.getByTestId("add-button-1").click();
+    expect(mockFn).toHaveBeenCalledTimes(1);
 });

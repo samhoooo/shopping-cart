@@ -69,7 +69,7 @@ export default function Cart(props: ICartProps) {
     }, [props.cartItems, props.products]);
 
     return (
-        <div className="cart">
+        <div className="cart" data-testid="cart">
             <div className="header">Shopping Cart</div>
             <table className="basket">
                 <thead>
@@ -89,15 +89,15 @@ export default function Cart(props: ICartProps) {
                         :
                         summerizedCartItems.map((item) => {
                             return (
-                                <tr key={item.product.id} id={'' +item.product.id}>
+                                <tr key={item.product.id} id={'' +item.product.id} data-testid={`item-${item.product.id}`}>
                                     <td className="col">{item.cartItem.quantity} {item.product.name}</td>
-                                    <td className="col">{formatCurrency(item.product.price)}</td>
-                                    <td className="col">{formatCurrency(item.totalCost)}</td>
-                                    <td className="col">{formatCurrency(item.discount)}</td>
+                                    <td className="col" data-testid={`item-unit-cost-${item.product.id}`}>{formatCurrency(item.product.price)}</td>
+                                    <td className="col" data-testid={`item-total-cost-${item.product.id}`}>{formatCurrency(item.totalCost)}</td>
+                                    <td className="col" data-testid={`item-discount-${item.product.id}`}>{formatCurrency(item.discount)}</td>
                                     <td className="col last">
-                                        <button className="action removeButton" onClick={() => {props.removeProductFromCart(item.product)}}>-</button>
-                                        <span className="action quantity">{item.cartItem.quantity}</span>
-                                        <button className="action addButton" onClick={() => {props.addProductToCart(item.product)}}>+</button>
+                                        <button className="action removeButton" data-testid={`remove-button-${item.product.id}`} onClick={() => {props.removeProductFromCart(item.product)}}>-</button>
+                                        <span className="action quantity" data-testid={`item-quantity-${item.product.id}`}>{item.cartItem.quantity}</span>
+                                        <button className="action addButton" data-testid={`add-button-${item.product.id}`} onClick={() => {props.addProductToCart(item.product)}}>+</button>
                                     </td>
                                 </tr>
                             )
@@ -105,7 +105,7 @@ export default function Cart(props: ICartProps) {
                     }
                     <tr className="summary">
                         <td id="totalLabel" colSpan={3} align="right">Total to pay:</td>
-                        <td id="total"><b>{formatCurrency(totalCost)}</b>
+                        <td id="total" data-testid={`total-amount`}><b>{formatCurrency(totalCost)}</b>
                         </td>
                     </tr>
                 </tbody>
