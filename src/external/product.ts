@@ -1,11 +1,28 @@
 import axios from 'axios';
 
+export interface IBuyXForPriceY {
+    buyX: number;
+    forPriceY: number;
+}
+
+export interface IBuyXGetYFree {
+    buyX: number;
+    getY: number;
+}
+
+export enum DiscountType {
+    buyXForPriceY = "buyXForPriceY",
+    buyXGetYFree = "buyXGetYFree"
+}
+
 export interface IProduct {
     "id": number,
     "name": string,
     "price": number,
     "unit": string | null,
-    "image": string
+    "image": string,
+    "discountType": DiscountType,
+    "discountValue": IBuyXForPriceY | IBuyXGetYFree,
 }
 
 interface IProductResponse {

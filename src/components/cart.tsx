@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/cart.css';
 import {ICartItem} from '../external/cart';
-import {IProduct} from '../external/product';
+import {IProduct, DiscountType, IBuyXForPriceY, IBuyXGetYFree} from '../external/product';
 import {formatCurrency} from '../util';
 
 interface ICartProps {
@@ -27,10 +27,13 @@ const findProductById = (id: number, products: IProduct[]) => {
  * Calculate discounted product cost
  */
 const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
-    switch(product.name) {
-        case 'Face Masks':
+    switch(product.discountType) {
+        case DiscountType.buyXForPriceY:
+            const discountValue = product.discountValue as IBuyXForPriceY;
+            if (product.discountValue == null || product.discountValue.buyX == null || product.discountValue.forPriceY == null)
             return (quantity - quantity % 2) / 2 * 4 + (quantity % 2) * product.price;
-        case 'Toilet Paper':
+            break;
+        case DiscountType.buyXGetYFree:
             return product.price * quantity - ((quantity - quantity % 6) / 6 * product.price);
         default:
             return product.price * quantity;
