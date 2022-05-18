@@ -35,7 +35,6 @@ const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
 
     switch(product.discountType) {
         case DiscountType.buyXForPriceY:
-            console.log("result", quantity % x + (quantity - quantity % x) / x * y);
             // Buy x items For price y (in pounds)
             if (quantity < x)
                 return product.price * quantity;
