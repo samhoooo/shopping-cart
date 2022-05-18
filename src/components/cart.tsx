@@ -45,7 +45,6 @@ const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
             return product.price * quantity - ((quantity - quantity % x) / x * product.price * y);
         default:
             return product.price * quantity;
-            
     }
 }
 
