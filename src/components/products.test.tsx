@@ -1,20 +1,33 @@
 import { render } from '@testing-library/react';
 import Products from './products';
+import {DiscountType} from '../external/product'
 
-const mockProducts = [{
-    "id": 1,
-    "name": "Face Masks",
-    "price": 2.5,
-    "unit": null,
-    "image": ""
-},
-{
-    "id": 2,
-    "name": "Toilet Paper",
-    "price": 0.65,
-    "unit": "roll",
-    "image": ""
-}];
+const mockProducts = [
+    {
+        "id": 1,
+        "name": "Face Masks",
+        "price": 2.5,
+        "unit": null,
+        "image": "https://picsum.photos/200",
+        "discountType": "buyXForPriceY" as DiscountType,
+        "discountValue": {
+            "x": 2,
+            "y": 4
+        }
+    },
+    {
+        "id": 2,
+        "name": "Toilet Paper",
+        "price": 0.65,
+        "unit": "roll",
+        "image": "https://picsum.photos/200",
+        "discountType": "buyXGetYFree" as DiscountType,
+        "discountValue": {
+            "x": 6,
+            "y": 2
+        }
+    }
+];
 
 test('render shopping cart correctly', () => {
     const dom = render(

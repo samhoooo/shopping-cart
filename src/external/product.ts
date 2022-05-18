@@ -1,13 +1,8 @@
 import axios from 'axios';
 
-export interface IBuyXForPriceY {
-    buyX: number;
-    forPriceY: number;
-}
-
-export interface IBuyXGetYFree {
-    buyX: number;
-    getY: number;
+export interface IDiscountValue {
+    x: number;
+    y: number;
 }
 
 export enum DiscountType {
@@ -22,7 +17,7 @@ export interface IProduct {
     "unit": string | null,
     "image": string,
     "discountType": DiscountType,
-    "discountValue": IBuyXForPriceY | IBuyXGetYFree,
+    "discountValue": IDiscountValue,
 }
 
 interface IProductResponse {

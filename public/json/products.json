@@ -8,8 +8,8 @@
             "image": "https://picsum.photos/200",
             "discountType": "buyXForPriceY",
             "discountValue": {
-                "buyX": 3,
-                "forPriceY": 2
+                "x": 2,
+                "y": 4
             }
         },
         {
@@ -20,8 +20,8 @@
             "image": "https://picsum.photos/200",
             "discountType": "buyXGetYFree",
             "discountValue": {
-                "buyX": 2,
-                "getY": 1
+                "x": 6,
+                "y": 1
             }
         }
     ]

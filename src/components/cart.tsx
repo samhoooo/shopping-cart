@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/cart.css';
 import {ICartItem} from '../external/cart';
-import {IProduct, DiscountType, IBuyXForPriceY, IBuyXGetYFree} from '../external/product';
+import {IProduct, DiscountType, IDiscountValue} from '../external/product';
 import {formatCurrency} from '../util';
 
 interface ICartProps {
@@ -27,16 +27,27 @@ const findProductById = (id: number, products: IProduct[]) => {
  * Calculate discounted product cost
  */
 const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
+    if (product.discountValue == null || product.discountValue.x == null || product.discountValue.y == null)
+        throw new Error("Error in getDiscountedCostOfItem: invalid product.discountValue");
+
+    const x = product.discountValue.x;
+    const y = product.discountValue.y;
+
     switch(product.discountType) {
         case DiscountType.buyXForPriceY:
-            const discountValue = product.discountValue as IBuyXForPriceY;
-            if (product.discountValue == null || product.discountValue.buyX == null || product.discountValue.forPriceY == null)
-            return (quantity - quantity % 2) / 2 * 4 + (quantity % 2) * product.price;
-            break;
+            console.log("result", quantity % x + (quantity - quantity % x) / x * y);
+            // Buy x items For price y (in pounds)
+            if (quantity < x)
+                return product.price * quantity;
+            else
+                return quantity % x + (quantity - quantity % x) / x * y
         case DiscountType.buyXGetYFree:
-            return product.price * quantity - ((quantity - quantity % 6) / 6 * product.price);
+            if (product.discountValue == null || product.discountValue.x == null || product.discountValue.y == null)
+                throw new Error("Error in getDiscountedCostOfItem: invalid product.discountValue");
+            return product.price * quantity - ((quantity - quantity % x) / x * product.price * y);
         default:
             return product.price * quantity;
+            
     }
 }
 
