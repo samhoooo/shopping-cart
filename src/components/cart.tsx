@@ -35,14 +35,13 @@ const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
 
     switch(product.discountType) {
         case DiscountType.buyXForPriceY:
-            // Buy x items For price y (in pounds)
+            // Buy x items for price y (in pounds)
             if (quantity < x)
                 return product.price * quantity;
             else
                 return quantity % x + (quantity - quantity % x) / x * y
         case DiscountType.buyXGetYFree:
-            if (product.discountValue == null || product.discountValue.x == null || product.discountValue.y == null)
-                throw new Error("Error in getDiscountedCostOfItem: invalid product.discountValue");
+            // Buy x items and get y items free
             return product.price * quantity - ((quantity - quantity % x) / x * product.price * y);
         default:
             return product.price * quantity;
