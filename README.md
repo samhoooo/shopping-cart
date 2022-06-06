@@ -1,6 +1,19 @@
 # Shopping Cart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A sample React shopping cart web app
+
+**![image](https://user-images.githubusercontent.com/19681625/172130328-dfac46a0-e71a-4fa6-a518-d3255cd44281.png)**
+
+A simple web app that allows a user to add supermarket items to a basket and remove items from the basket. 
+The app automatically calculate and display the costs of the items, any applicable discounts, and the total amount to pay.
+
+The shop needs to allow the user to add these items to the basket:
+Face Masks (£2.50 each)
+Toilet Paper (65p per roll)
+
+There are also some discounts applied on groups of items:
+1. Two Face Masks for £4.
+2. Six rolls of toilet paper for the price of five.
 
 ## Available Scripts
 
