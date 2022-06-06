@@ -1,6 +1,6 @@
-# Shopping Cart
+# React Shopping Cart
 
-A sample React shopping cart web app
+a sample React shopping cart web app
 
 **![image](https://user-images.githubusercontent.com/19681625/172130328-dfac46a0-e71a-4fa6-a518-d3255cd44281.png)**
 
