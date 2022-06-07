@@ -1,6 +1,6 @@
 # React Shopping Cart
 
-a sample React shopping cart web app
+A sample React shopping cart web app
 
 **![image](https://user-images.githubusercontent.com/19681625/172130328-dfac46a0-e71a-4fa6-a518-d3255cd44281.png)**
 
@@ -15,7 +15,7 @@ There are also some discounts applied on groups of items:
 1. Two Face Masks for £4.
 2. Six rolls of toilet paper for the price of five.
 
-## Available Scripts
+## Getting started
 
 In the project directory, you can run:
 
@@ -39,5 +39,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
