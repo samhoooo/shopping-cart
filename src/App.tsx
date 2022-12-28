@@ -1,12 +1,14 @@
 import React from "react";
 import Home from "./pages/home";
-import ErrorFallback from "./components/errorFallback";
+import { CartItemsProvider } from "./context/cartItems";
 
 function App() {
   return (
-    <div className="App" data-testid="app">
-      <Home />
-    </div>
+    <CartItemsProvider>
+      <div className="App" data-testid="app">
+        <Home />
+      </div>
+    </CartItemsProvider>
   );
 }
 

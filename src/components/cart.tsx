@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../styles/cart.css";
 import { ICartItem } from "../external/cart";
-import { IProduct, DiscountType, IDiscountValue } from "../external/product";
+import { IProduct, DiscountType } from "../external/product";
 import { formatCurrency } from "../util";
+import { useAddItem, useRemoveItem } from "../hooks";
 
 interface ICartProps {
   cartItems: ICartItem[];
   products: IProduct[];
-  removeProductFromCart: (product: IProduct) => void;
-  addProductToCart: (product: IProduct) => void;
 }
 
 interface ISummerizedCartItem {
@@ -59,6 +58,8 @@ export default function Cart(props: ICartProps) {
     ISummerizedCartItem[]
   >([]);
   const [totalCost, setTotalCost] = useState(0);
+  const { removeItem } = useRemoveItem();
+  const { addItem } = useAddItem();
 
   useEffect(() => {
     const costs = [];
@@ -145,7 +146,7 @@ export default function Cart(props: ICartProps) {
                       data-testid={`remove-button-${item.product.id}`}
                       aria-label="remove 1 item"
                       onClick={() => {
-                        props.removeProductFromCart(item.product);
+                        removeItem(item.product);
                       }}
                     >
                       -
@@ -161,7 +162,7 @@ export default function Cart(props: ICartProps) {
                       data-testid={`add-button-${item.product.id}`}
                       aria-label="add 1 item"
                       onClick={() => {
-                        props.addProductToCart(item.product);
+                        addItem(item.product);
                       }}
                     >
                       +

@@ -1,65 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../styles/home.css";
 import Products from "../components/products";
 import Navbar from "../components/navbar";
 import Cart from "../components/cart";
 import { IProduct, getProducts } from "../external/product";
-import { ICartItem } from "../external/cart";
 import ErrorFallback from "../components/errorFallback";
+import { useCart } from "../hooks";
 
 export default function Home() {
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [error, setError] = useState(""); // containing error message
-
-  const addToCart = (product: IProduct) => {
-    const currentCartItems = [...cartItems];
-
-    const existingCartItemWithSameProductIndex = currentCartItems.findIndex(
-      (item) => item.productId === product.id
-    );
-    if (existingCartItemWithSameProductIndex > -1) {
-      currentCartItems[existingCartItemWithSameProductIndex] = {
-        ...currentCartItems[existingCartItemWithSameProductIndex],
-        quantity:
-          currentCartItems[existingCartItemWithSameProductIndex].quantity + 1,
-      };
-    } else {
-      currentCartItems.push({
-        productId: product.id,
-        quantity: 1,
-      });
-    }
-
-    setCartItems(currentCartItems);
-  };
-
-  const removeFromCart = (product: IProduct) => {
-    const currentCartItems = [...cartItems];
-
-    const existingCartItemWithSameProductIndex = currentCartItems.findIndex(
-      (item) => item.productId === product.id
-    );
-    if (existingCartItemWithSameProductIndex > -1) {
-      const targetCartItem =
-        currentCartItems[existingCartItemWithSameProductIndex];
-      if (targetCartItem.quantity > 1) {
-        // minus quantity by one
-        currentCartItems[existingCartItemWithSameProductIndex] = {
-          ...targetCartItem,
-          quantity:
-            currentCartItems[existingCartItemWithSameProductIndex].quantity - 1,
-        };
-      } else {
-        // remove the whole cart item
-        currentCartItems.splice(existingCartItemWithSameProductIndex, 1);
-      }
-    } else {
-      throw new Error("removeFromCart: Product does not exist.");
-    }
-
-    setCartItems(currentCartItems);
-  };
+  const { cartItems } = useCart();
 
   useEffect(() => {
     // first time loading get products
@@ -80,13 +31,8 @@ export default function Home() {
         <ErrorFallback errorMessage={error} />
       ) : (
         <div className="content">
-          <Products products={products} addProductToCart={addToCart} />
-          <Cart
-            cartItems={cartItems}
-            products={products}
-            removeProductFromCart={removeFromCart}
-            addProductToCart={addToCart}
-          />
+          <Products products={products} />
+          <Cart cartItems={cartItems} products={products} />
         </div>
       )}
     </div>

@@ -1,13 +1,14 @@
 import "../styles/products.css";
 import { IProduct } from "../external/product";
 import { formatCurrency } from "../util";
-
+import { useAddItem } from "../hooks";
 interface IProductProps {
   products: IProduct[];
-  addProductToCart: (product: IProduct) => void;
 }
 
 export default function Products(props: IProductProps) {
+  const { addItem } = useAddItem();
+
   return (
     <div className="products" data-testid="products">
       <div className="header">Products</div>
@@ -28,7 +29,7 @@ export default function Products(props: IProductProps) {
                 className="button add-to-cart"
                 data-testid={`add-button-${item.id}`}
                 onClick={() => {
-                  props.addProductToCart(item);
+                  addItem(item);
                 }}
               >
                 Add to Cart
