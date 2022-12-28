@@ -1,23 +1,23 @@
 .content {
-    padding: 0 5%;
-    display: flex;
-    flex-wrap: wrap;
+  padding: 0 5%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 button {
-    background-color: #666;
-    color: #fff;
-    max-width: 8rem;
-    text-align: center;
-    border-radius: 8px;
-    padding: .5rem 1rem;
+  background-color: #666;
+  color: #fff;
+  max-width: 8rem;
+  text-align: center;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
 }
 
 button:hover {
-    background-color: #444;
-    cursor: pointer;
+  background-color: #444;
+  cursor: pointer;
 }
 
 button:focus {
-    background-color: #444;
+  background-color: #444;
 }

@@ -1,9 +1,7 @@
-import { render } from '@testing-library/react';
-import App from './App';
+import { render } from "@testing-library/react";
+import App from "./App";
 
-test('render app correctly', () => {
-    const dom = render(
-        <App/>
-    );
-    expect(dom.getByTestId("app")).toBeInTheDocument();
+test("render app correctly", () => {
+  const dom = render(<App />);
+  expect(dom.getByTestId("app")).toBeInTheDocument();
 });

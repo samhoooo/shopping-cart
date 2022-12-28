@@ -1,4 +1,4 @@
 export interface ICartItem {
-    "productId": number,
-    "quantity": number
+  productId: number;
+  quantity: number;
 }

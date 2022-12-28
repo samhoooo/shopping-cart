@@ -1,14 +1,14 @@
 .navbar {
-    position: sticky;
-    background-color: #555;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5%;
-    min-height: 3.5rem;
+  position: sticky;
+  background-color: #555;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  min-height: 3.5rem;
 }
-  
+
 .navbar .header {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
