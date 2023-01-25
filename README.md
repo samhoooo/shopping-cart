@@ -1,7 +1,10 @@
-# React Shopping Cart
+# React Shopping Cart Example
 
-A sample React shopping cart web app
+A sample React shopping cart web app demo with custom hooks
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+## Introduction
 **![image](https://user-images.githubusercontent.com/19681625/172130328-dfac46a0-e71a-4fa6-a518-d3255cd44281.png)**
 
 A simple web app that allows a user to add supermarket items to a basket and remove items from the basket.
@@ -40,3 +43,9 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
+
+## Custom Hooks Usage
+
+- `useAddItem.tsx` - Add an item to basket
+- `useCart.tsx` - Get cart items
+- `useRemoveItem.tsx` - Remove an item from basket
