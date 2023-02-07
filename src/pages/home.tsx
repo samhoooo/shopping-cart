@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/home.css";
 import Products from "../components/products";
 import Navbar from "../components/navbar";
