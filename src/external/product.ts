@@ -1,23 +1,11 @@
 import axios from "axios";
 
-export interface IDiscountValue {
-  x: number;
-  y: number;
-}
-
-export enum DiscountType {
-  buyXForPriceY = "buyXForPriceY",
-  buyXGetYFree = "buyXGetYFree",
-}
-
 export interface IProduct {
   id: number;
   name: string;
   price: number;
   unit: string | null;
   image: string;
-  discountType: DiscountType;
-  discountValue: IDiscountValue;
 }
 
 interface IProductResponse {

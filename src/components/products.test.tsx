@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import Products from "./products";
-import { DiscountType } from "../external/product";
 
 const mockProducts = [
   {
@@ -9,11 +8,6 @@ const mockProducts = [
     price: 2.5,
     unit: null,
     image: "https://picsum.photos/200",
-    discountType: "buyXForPriceY" as DiscountType,
-    discountValue: {
-      x: 2,
-      y: 4,
-    },
   },
   {
     id: 2,
@@ -21,11 +15,6 @@ const mockProducts = [
     price: 0.65,
     unit: "roll",
     image: "https://picsum.photos/200",
-    discountType: "buyXGetYFree" as DiscountType,
-    discountValue: {
-      x: 6,
-      y: 2,
-    },
   },
 ];
 
@@ -54,12 +43,3 @@ test("show product item price correctly", () => {
   const faceMaskItem = screen.getByTestId("product-price-1");
   expect(faceMaskItem).toHaveTextContent("£2.50");
 });
-
-// test("click add to cart button trigger function correctly", () => {
-//   const mockFn = jest.fn();
-//   const view = render(
-//     <Products products={mockProducts}  />
-//   );
-//   view.getByTestId("add-button-1").click();
-//   expect(mockFn).toHaveBeenCalledTimes(1);
-// });

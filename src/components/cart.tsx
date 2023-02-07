@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/cart.css";
 import { ICartItem } from "../external/cart";
-import { IProduct, DiscountType } from "../external/product";
+import { IProduct } from "../external/product";
 import { formatCurrency } from "../util";
 import { useAddItem, useRemoveItem } from "../hooks";
 
@@ -12,45 +12,12 @@ interface ICartProps {
 
 interface ISummerizedCartItem {
   totalCost: number;
-  discount: number;
   cartItem: ICartItem;
   product: IProduct;
 }
 
 const findProductById = (id: number, products: IProduct[]) => {
   return products.find((item) => item.id === id);
-};
-
-/**
- * Calculate discounted product cost
- */
-const getDiscountedCostOfItem = (product: IProduct, quantity: number) => {
-  if (
-    product.discountValue == null ||
-    product.discountValue.x == null ||
-    product.discountValue.y == null
-  )
-    throw new Error(
-      "Error in getDiscountedCostOfItem: invalid product.discountValue"
-    );
-
-  const x = product.discountValue.x;
-  const y = product.discountValue.y;
-
-  switch (product.discountType) {
-    case DiscountType.buyXForPriceY:
-      // Buy x items for price y (in pounds)
-      if (quantity < x) return product.price * quantity;
-      else return (quantity % x) + ((quantity - (quantity % x)) / x) * y;
-    case DiscountType.buyXGetYFree:
-      // Buy x items and get y items free
-      return (
-        product.price * quantity -
-        ((quantity - (quantity % x)) / x) * product.price * y
-      );
-    default:
-      return product.price * quantity;
-  }
 };
 
 export default function Cart(props: ICartProps) {
@@ -70,20 +37,15 @@ export default function Cart(props: ICartProps) {
       const product = findProductById(item.productId, props.products);
       if (product == null) return;
 
-      const originalPrice = product.price * item.quantity;
-      const discountedCostOfItem = getDiscountedCostOfItem(
-        product,
-        item.quantity
-      );
+      const price = product.price * item.quantity;
       costs.push({
-        totalCost: originalPrice,
-        discount: originalPrice - discountedCostOfItem,
+        totalCost: price,
         cartItem: item,
         product: product,
       });
 
       // calculate total price of items
-      totalCost += discountedCostOfItem;
+      totalCost += price;
     }
 
     setSummerizedCartItems(costs);
@@ -99,9 +61,6 @@ export default function Cart(props: ICartProps) {
             <th className="col">Item</th>
             <th className="col">Unit Cost</th>
             <th className="col">Total Cost</th>
-            <th className="col last" colSpan={2}>
-              Discount
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -133,12 +92,6 @@ export default function Cart(props: ICartProps) {
                     data-testid={`item-total-cost-${item.product.id}`}
                   >
                     {formatCurrency(item.totalCost)}
-                  </td>
-                  <td
-                    className="col"
-                    data-testid={`item-discount-${item.product.id}`}
-                  >
-                    {formatCurrency(item.discount)}
                   </td>
                   <td className="col last">
                     <button

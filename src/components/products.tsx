@@ -8,12 +8,13 @@ interface IProductProps {
 
 export default function Products(props: IProductProps) {
   const { addItem } = useAddItem();
+  const { products } = props;
 
   return (
     <div className="products" data-testid="products">
       <div className="header">Products</div>
       <div className="product-list">
-        {props.products.map((item) => {
+        {products.map((item) => {
           return (
             <div
               className="item"
