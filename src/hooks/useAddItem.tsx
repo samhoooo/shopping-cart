@@ -5,24 +5,26 @@ const useAddItem = () => {
   const { cartItems, setCartItems } = useCart();
 
   const addItem = (product: IProduct) => {
+    // Copy the current cart items
     const currentCartItems = [...cartItems];
 
-    const existingCartItemWithSameProductIndex = currentCartItems.findIndex(
+    // Find the index of the product in the cart
+    const existingCartItem = currentCartItems.find(
       (item) => item.productId === product.id
     );
-    if (existingCartItemWithSameProductIndex > -1) {
-      currentCartItems[existingCartItemWithSameProductIndex] = {
-        ...currentCartItems[existingCartItemWithSameProductIndex],
-        quantity:
-          currentCartItems[existingCartItemWithSameProductIndex].quantity + 1,
-      };
+
+    // If the product is already in the cart, update the quantity
+    if (existingCartItem) {
+      existingCartItem.quantity += 1;
     } else {
+      // If the product is not in the cart, add it
       currentCartItems.push({
         productId: product.id,
         quantity: 1,
       });
     }
 
+    // Update the cart items
     setCartItems(currentCartItems);
   };
 

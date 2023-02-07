@@ -13,7 +13,7 @@ export default function Home() {
   const { cartItems } = useCart();
 
   useEffect(() => {
-    // first time loading get products
+    // fetch products from mock API
     (async () => {
       try {
         const products = await getProducts();

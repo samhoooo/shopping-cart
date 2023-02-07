@@ -4,7 +4,7 @@ import { ICartItem } from "../external/cart";
 import { IProduct } from "../external/product";
 import { formatCurrency } from "../util";
 import { useAddItem, useRemoveItem } from "../hooks";
-
+import { findProductById } from "../utils/product";
 interface ICartProps {
   cartItems: ICartItem[];
   products: IProduct[];
@@ -16,41 +16,38 @@ interface ISummerizedCartItem {
   product: IProduct;
 }
 
-const findProductById = (id: number, products: IProduct[]) => {
-  return products.find((item) => item.id === id);
-};
-
 export default function Cart(props: ICartProps) {
   const [summerizedCartItems, setSummerizedCartItems] = useState<
     ISummerizedCartItem[]
   >([]);
+  const { cartItems, products } = props;
+
   const [totalCost, setTotalCost] = useState(0);
   const { removeItem } = useRemoveItem();
   const { addItem } = useAddItem();
 
   useEffect(() => {
-    const costs = [];
-    let totalCost = 0;
+    // calculate total cost for each cart items and include product info
+    const summerizedCartItems = cartItems.reduce((result, item) => {
+      const product = findProductById(item.productId, products);
+      if (product) {
+        result.push({
+          totalCost: product.price * item.quantity,
+          cartItem: item,
+          product: product,
+        });
+      }
+      return result;
+    }, [] as ISummerizedCartItem[]);
 
-    for (let item of props.cartItems) {
-      // calculate costs for each cart items
-      const product = findProductById(item.productId, props.products);
-      if (product == null) return;
+    // calculate total cost
+    const totalCost = summerizedCartItems.reduce((result, item) => {
+      return item.totalCost + result;
+    }, 0);
 
-      const price = product.price * item.quantity;
-      costs.push({
-        totalCost: price,
-        cartItem: item,
-        product: product,
-      });
-
-      // calculate total price of items
-      totalCost += price;
-    }
-
-    setSummerizedCartItems(costs);
+    setSummerizedCartItems(summerizedCartItems);
     setTotalCost(totalCost);
-  }, [props.cartItems, props.products]);
+  }, [cartItems, products]);
 
   return (
     <div className="cart" data-testid="cart">

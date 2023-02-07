@@ -3,7 +3,12 @@ import { createContext } from "react";
 import { useState } from "react";
 import { ICartItem } from "../external/cart";
 
-export const CartItemsContext = createContext<any>({
+interface ICartItemsContext {
+  cartItems: ICartItem[];
+  setCartItems: (cartItems: ICartItem[]) => void;
+}
+
+export const CartItemsContext = createContext<ICartItemsContext>({
   cartItems: [],
   setCartItems: () => {},
 });

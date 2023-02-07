@@ -5,24 +5,22 @@ const useRemoveItem = () => {
   const { cartItems, setCartItems } = useCart();
 
   const removeItem = (product: IProduct) => {
+    // make a copy of the cart items
     const currentCartItems = [...cartItems];
 
-    const existingCartItemWithSameProductIndex = currentCartItems.findIndex(
+    // find the index of the product in the cart
+    const existingCartItem = currentCartItems.find(
       (item) => item.productId === product.id
     );
-    if (existingCartItemWithSameProductIndex > -1) {
-      const targetCartItem =
-        currentCartItems[existingCartItemWithSameProductIndex];
-      if (targetCartItem.quantity > 1) {
+
+    // if the product exists in the cart
+    if (existingCartItem) {
+      if (existingCartItem.quantity > 1) {
         // minus quantity by one
-        currentCartItems[existingCartItemWithSameProductIndex] = {
-          ...targetCartItem,
-          quantity:
-            currentCartItems[existingCartItemWithSameProductIndex].quantity - 1,
-        };
+        existingCartItem.quantity -= 1;
       } else {
         // remove the whole cart item
-        currentCartItems.splice(existingCartItemWithSameProductIndex, 1);
+        currentCartItems.splice(currentCartItems.indexOf(existingCartItem), 1);
       }
     } else {
       throw new Error("removeFromCart: Product does not exist.");
