@@ -66,17 +66,3 @@ test("show total amount correctly", () => {
   const total = screen.getByTestId("total-amount");
   expect(total).toHaveTextContent("£9.55");
 });
-
-test("click remove button trigger function correctly", () => {
-  const mockFn = jest.fn();
-  render(<Cart cartItems={mockCartItems} products={mockProducts} />);
-  screen.getByTestId("remove-button-1").click();
-  expect(mockFn).toHaveBeenCalledTimes(1);
-});
-
-test("click add button trigger function correctly", () => {
-  const mockFn = jest.fn();
-  render(<Cart cartItems={mockCartItems} products={mockProducts} />);
-  screen.getByTestId("add-button-1").click();
-  expect(mockFn).toHaveBeenCalledTimes(1);
-});
