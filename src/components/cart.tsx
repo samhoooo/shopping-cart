@@ -1,46 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../styles/cart.css";
-import { ICartItem } from "../external/cart";
-import { IProduct } from "../external/product";
 import { formatCurrency } from "../util";
-import { useAddItem, useRemoveItem } from "../hooks";
-import { findProductById } from "../utils/product";
-import { useCart } from "../hooks";
-
-interface ISummerizedCartItem {
-  totalCost: number;
-  cartItem: ICartItem;
-}
+import { useAddItem, useRemoveItem, useCart } from "../hooks";
 
 export default function Cart() {
-  const [summerizedCartItems, setSummerizedCartItems] = useState<
-    ISummerizedCartItem[]
-  >([]);
-
   const [totalCost, setTotalCost] = useState(0);
   const { cartItems } = useCart();
   const { removeItem } = useRemoveItem();
   const { addItem } = useAddItem();
 
   useEffect(() => {
-    // calculate total cost for each cart items
-    const summerizedCartItems = cartItems.reduce((result, item) => {
-      const product = item.product;
-      if (product) {
-        result.push({
-          totalCost: product.price * item.quantity,
-          cartItem: item,
-        });
-      }
-      return result;
-    }, [] as ISummerizedCartItem[]);
-
     // calculate total cost
-    const totalCost = summerizedCartItems.reduce((result, item) => {
-      return item.totalCost + result;
+    const totalCost = cartItems.reduce((result, item) => {
+      return item.product.price * item.quantity + result;
     }, 0);
 
-    setSummerizedCartItems(summerizedCartItems);
     setTotalCost(totalCost);
   }, [cartItems]);
 
@@ -63,8 +37,8 @@ export default function Cart() {
               </td>
             </tr>
           ) : (
-            summerizedCartItems.map((item) => {
-              const product = item.cartItem.product;
+            cartItems.map((item) => {
+              const product = item.product;
               return (
                 <tr
                   key={product.id}
@@ -72,7 +46,7 @@ export default function Cart() {
                   data-testid={`item-${product.id}`}
                 >
                   <td className="col">
-                    {item.cartItem.quantity} {product.name}
+                    {item.quantity} {product.name}
                   </td>
                   <td
                     className="col"
@@ -84,7 +58,7 @@ export default function Cart() {
                     className="col"
                     data-testid={`item-total-cost-${product.id}`}
                   >
-                    {formatCurrency(item.totalCost)}
+                    {formatCurrency(item.product.price * item.quantity)}
                   </td>
                   <td className="col last">
                     <button
@@ -101,7 +75,7 @@ export default function Cart() {
                       className="action quantity"
                       data-testid={`item-quantity-${product.id}`}
                     >
-                      {item.cartItem.quantity}
+                      {item.quantity}
                     </span>
                     <button
                       className="action addButton"
