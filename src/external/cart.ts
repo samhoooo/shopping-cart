@@ -1,4 +1,6 @@
+import { IProduct } from "./product";
+
 export interface ICartItem {
-  productId: number;
+  product: IProduct;
   quantity: number;
 }

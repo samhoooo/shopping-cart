@@ -5,36 +5,31 @@ import { IProduct } from "../external/product";
 import { formatCurrency } from "../util";
 import { useAddItem, useRemoveItem } from "../hooks";
 import { findProductById } from "../utils/product";
-interface ICartProps {
-  cartItems: ICartItem[];
-  products: IProduct[];
-}
+import { useCart } from "../hooks";
 
 interface ISummerizedCartItem {
   totalCost: number;
   cartItem: ICartItem;
-  product: IProduct;
 }
 
-export default function Cart(props: ICartProps) {
+export default function Cart() {
   const [summerizedCartItems, setSummerizedCartItems] = useState<
     ISummerizedCartItem[]
   >([]);
-  const { cartItems, products } = props;
 
   const [totalCost, setTotalCost] = useState(0);
+  const { cartItems } = useCart();
   const { removeItem } = useRemoveItem();
   const { addItem } = useAddItem();
 
   useEffect(() => {
-    // calculate total cost for each cart items and include product info
+    // calculate total cost for each cart items
     const summerizedCartItems = cartItems.reduce((result, item) => {
-      const product = findProductById(item.productId, products);
+      const product = item.product;
       if (product) {
         result.push({
           totalCost: product.price * item.quantity,
           cartItem: item,
-          product: product,
         });
       }
       return result;
@@ -47,7 +42,7 @@ export default function Cart(props: ICartProps) {
 
     setSummerizedCartItems(summerizedCartItems);
     setTotalCost(totalCost);
-  }, [cartItems, products]);
+  }, [cartItems]);
 
   return (
     <div className="cart" data-testid="cart">
@@ -61,7 +56,7 @@ export default function Cart(props: ICartProps) {
           </tr>
         </thead>
         <tbody>
-          {props.cartItems.length < 1 ? (
+          {cartItems.length < 1 ? (
             <tr>
               <td colSpan={4} className="noItem">
                 There is no item in shopping cart.
@@ -69,50 +64,51 @@ export default function Cart(props: ICartProps) {
             </tr>
           ) : (
             summerizedCartItems.map((item) => {
+              const product = item.cartItem.product;
               return (
                 <tr
-                  key={item.product.id}
-                  id={"" + item.product.id}
-                  data-testid={`item-${item.product.id}`}
+                  key={product.id}
+                  id={"" + product.id}
+                  data-testid={`item-${product.id}`}
                 >
                   <td className="col">
-                    {item.cartItem.quantity} {item.product.name}
+                    {item.cartItem.quantity} {product.name}
                   </td>
                   <td
                     className="col"
-                    data-testid={`item-unit-cost-${item.product.id}`}
+                    data-testid={`item-unit-cost-${product.id}`}
                   >
-                    {formatCurrency(item.product.price)}
+                    {formatCurrency(product.price)}
                   </td>
                   <td
                     className="col"
-                    data-testid={`item-total-cost-${item.product.id}`}
+                    data-testid={`item-total-cost-${product.id}`}
                   >
                     {formatCurrency(item.totalCost)}
                   </td>
                   <td className="col last">
                     <button
                       className="action removeButton"
-                      data-testid={`remove-button-${item.product.id}`}
+                      data-testid={`remove-button-${product.id}`}
                       aria-label="remove 1 item"
                       onClick={() => {
-                        removeItem(item.product);
+                        removeItem(product);
                       }}
                     >
                       -
                     </button>
                     <span
                       className="action quantity"
-                      data-testid={`item-quantity-${item.product.id}`}
+                      data-testid={`item-quantity-${product.id}`}
                     >
                       {item.cartItem.quantity}
                     </span>
                     <button
                       className="action addButton"
-                      data-testid={`add-button-${item.product.id}`}
+                      data-testid={`add-button-${product.id}`}
                       aria-label="add 1 item"
                       onClick={() => {
-                        addItem(item.product);
+                        addItem(product);
                       }}
                     >
                       +

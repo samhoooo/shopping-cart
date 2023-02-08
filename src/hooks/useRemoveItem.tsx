@@ -10,7 +10,7 @@ const useRemoveItem = () => {
 
     // find the index of the product in the cart
     const existingCartItem = currentCartItems.find(
-      (item) => item.productId === product.id
+      (item) => item.product.id === product.id
     );
 
     // if the product exists in the cart

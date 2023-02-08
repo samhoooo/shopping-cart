@@ -1,40 +1,16 @@
-import React, { useEffect, useState } from "react";
 import "../styles/home.css";
 import Products from "../components/products";
 import Navbar from "../components/navbar";
 import Cart from "../components/cart";
-import { IProduct, getProducts } from "../external/product";
-import ErrorFallback from "../components/errorFallback";
-import { useCart } from "../hooks";
 
 export default function Home() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [error, setError] = useState(""); // containing error message
-  const { cartItems } = useCart();
-
-  useEffect(() => {
-    // fetch products from mock API
-    (async () => {
-      try {
-        const products = await getProducts();
-        setProducts(products);
-      } catch (err) {
-        if (err instanceof Error) setError(err.message);
-      }
-    })();
-  }, []);
-
   return (
     <div className="App">
       <Navbar />
-      {error !== "" ? (
-        <ErrorFallback errorMessage={error} />
-      ) : (
-        <div className="content">
-          <Products products={products} />
-          <Cart cartItems={cartItems} products={products} />
-        </div>
-      )}
+      <div className="content">
+        <Products />
+        <Cart />
+      </div>
     </div>
   );
 }

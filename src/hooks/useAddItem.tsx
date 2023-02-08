@@ -10,7 +10,7 @@ const useAddItem = () => {
 
     // Find the index of the product in the cart
     const existingCartItem = currentCartItems.find(
-      (item) => item.productId === product.id
+      (item) => item.product.id === product.id
     );
 
     // If the product is already in the cart, update the quantity
@@ -19,7 +19,7 @@ const useAddItem = () => {
     } else {
       // If the product is not in the cart, add it
       currentCartItems.push({
-        productId: product.id,
+        product,
         quantity: 1,
       });
     }
