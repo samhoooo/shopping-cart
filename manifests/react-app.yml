@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: my-reactapp-deploy
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+          app: my-reactapp
+    template:
+      metadata:
+        labels:
+            app: my-reactapp
+      spec:
+        containers:
+            - name: myreact-app
+              image: suresh4646/shop-react:latest       
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: myreactapp-svc
+spec:
+  type: NodePort
+  selector:
+      app: my-reactapp
+  ports: 
+    - name: my-app
+      port: 3000
+      targetPort: 3000          
